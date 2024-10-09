@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <h1>Register</h1>
+            <form id="registerForm">
+                <div class="textbox">
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="textbox">
+                    <input type="email" placeholder="Email" required>
+                </div>
+
+                <div class="textbox">
+                  <select name="countryCode" id="countryCode" class="country-code" required>
+                      <option value="+1">+1 USA</option>
+                      <option value="+44">+44 UK</option>
+                      <option value="+91">+91 India</option>
+                      <option value="+61">+61 Australia</option>
+                      <option value="+81">+81 Japan</option>
+                      <!-- Add more country codes as needed -->
+                  </select>
+                  <input type="tel" placeholder="Phone Number" required>
+              </div>
+              
+              
+
+                <div class="textbox">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" placeholder="Confirm Password" required>
+                </div>
+
+                
+                <div class="checkbox-container">
+                    <input type="checkbox" id="termsConditions" class="remember-Me" required>
+                    <label for="termsConditions" style="font-size: 12px; font-family: 'Montserrat'; font-weight: 00;">I agree to the Terms & Conditions</label>
+                </div>
+                <button type="submit" class="btn">Register</button>
+
+                <p class="text-center" style="font-family: 'Montserrat'; font-size: 13px;">Already have an account? <a href="./index.html">Login</a></p>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
