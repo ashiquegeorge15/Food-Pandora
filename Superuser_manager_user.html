@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Pandora - User Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        :root {
+            --primary-color: #E31837;
+            --text-color: #333;
+            --border-color: #E5E7EB;
+            --bg-gray: #F3F4F6;
+        }
+
+        body {
+            background: #F8F9FA;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background: white;
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            position: fixed;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 32px;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .logo img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-item.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Header */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 32px;
+        }
+
+        .menu-item {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .user-actions {
+            position: absolute;
+            top: 20px;
+            right: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .notification-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .profile-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+        }
+
+        /* User Management Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 4px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .add-user-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 24px;
+        }
+
+        .search-bar {
+            width: 300px;
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        /* Users Table */
+        .users-table {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            border-collapse: collapse;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .users-table th {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .user-row {
+            transition: background-color 0.2s;
+        }
+
+        .user-row:hover {
+            background-color: var(--bg-gray);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+
+        .delete-btn {
+            background: #FFEBEE;
+            color: var(--primary-color);
+        }
+
+         /* Popup Styles */
+         .popup-overlay {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .popup {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup h2 {
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .popup form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .popup input,
+        .popup select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .popup-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .popup button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .popup .submit-btn {
+            background: #E31837;
+            color: white;
+        }
+
+        .popup .cancel-btn {
+            background: #ddd;
+        }
+
+        .save-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+
+        .cancel-btn {
+            padding: 6px 12px;
+            cursor: pointer;
+            background: #FFEBEE;
+            color: var(--primary-color);
+            border: none
+        }
+
+        /* error popup */
+        .error-popup-overlay {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+    
+        .error-popup {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+    
+        .error-popup h2 {
+            margin-bottom: 16px;
+            color: #333;
+        }
+    
+        .error-popup p {
+            margin-bottom: 16px;
+            color: #e31837;
+        }
+    
+        .error-popup button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #e31837;
+            color: white;
+            cursor: pointer;
+        }
+  
+        /* Success popup */
+        .success-popup-overlay {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .success-popup {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .success-popup h2 {
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .success-popup p {
+            margin-bottom: 16px;
+            color: #2E7D32;
+        }
+
+        .success-popup button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #2E7D32;
+            color: white;
+            cursor: pointer;
+        }
+
+        .editable {
+            width: 100%;
+            padding: 4px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .user-info input {
+            margin-left: 12px;
+            width: calc(100% - 52px);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+    /* Popup Styles - Matching existing UI */
+    .popup-overlay {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .popup {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .popup h2 {
+        margin-bottom: 16px;
+        color: #333;
+        text-align: center;
+    }
+
+    .popup form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .popup input,
+    .popup select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .popup-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+    }
+
+    .popup button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .popup .submit-btn {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .popup .cancel-btn {
+        background: #ddd;
+        color: #333;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            
+            <a href="#" class="logo">
+                <img src="./images/dashboard_images/Food_pandora_logo.png" alt="Food Pandora Logo">
+                <span>Food Pandora</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="/SuperUser_Dashboard" class="nav-item">Dashboard</a>
+                <a href="#" class="nav-item">Audits</a>
+                <a href="#" class="nav-item">Ingredient Manager</a>
+                <a href="#" class="nav-item">Recipe manager</a>
+                <a href="/SuperUser_Manage_User" class="nav-item active">Manage Users</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <h1 class="page-title">Manage Users</h1>
+                        <br/>
+                        <br/>
+                <div class="user-actions">
+                    <div class="header">
+                        
+                    </div>
+                    <div></div>
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-dot"></span>
+                    </button>
+                    <a href="/Profile"><img src="./images/dashboard_images/profile.png" alt="Profile" class="profile-img"></a>
+                </div>
+                
+                <br/>
+            <div class="section-header">
+                <div class="tab-container">
+                    <div class="tab active" data-tab="users">Data Users</div>
+                    <div class="tab" data-tab="data-manager">Data Manager</div>
+                </div>
+                <button class="add-user-btn">Add User</button>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search users..." id="searchInput">
+            </div>
+
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Date Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Table content will be dynamically populated -->
+                </tbody>
+            </table>
+
+                    <!-- Popup for adding new user -->
+            <div class="popup-overlay" id="addUserPopup">
+                <div class="popup">
+                    <h2>Add New Entry</h2>
+                    <form id="addUserForm">
+                        <select id="entry-type">
+                            <option value="user">Data User</option>
+                            <option value="datamanager">Data Manager</option>
+                        </select>
+                        <input type="text" id="new-entry-name" placeholder="Name" required>
+                        <input type="email" id="new-entry-email" placeholder="Email" required>
+                        <input type="password" id="new-entry-password" placeholder="Password" >
+                        <input type="text" id="new-entry-phone" placeholder="Phone" required>
+                        <input type="url" id="new-entry-avatar" placeholder="Avatar URL" >
+                    
+                        <div class="popup-actions">
+                            <button type="button" class="cancel-btn" id="cancelPopup">Cancel</button>
+                            <button type="submit" class="submit-btn">Add Entry</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Error popup -->
+            <div class="error-popup-overlay" id="errorPopup">
+                <div class="error-popup">
+                    <h2>Error</h2>
+                    <p id="errorMessage"></p>
+                    <button id="closeErrorPopup">Close</button>
+                </div>
+            </div>
+            <!-- Success popup -->
+            <div class="success-popup-overlay" id="successPopup">
+                <div class="success-popup">
+                    <h2>Success</h2>
+                    <p id="successMessage"></p>
+                    <button id="closeSuccessPopup">Close</button>
+                </div>
+            </div>
+            <!-- Edit User Popup -->
+            <div class="popup-overlay" id="editUserPopup">
+                <div class="popup">
+                    <h2>Edit User Details</h2>
+                    <form id="editUserForm">
+                        <input type="text" id="edit-name" placeholder="Name" required>
+                        <input type="email" id="edit-email" placeholder="Email" required>
+                        <input type="text" id="edit-phone" placeholder="Phone Number" required>
+                        <select id="edit-role" required>
+                            <option value="user">Data User</option>
+                            <option value="datamanager">Data Manager</option>
+                        </select>
+                        <div class="popup-actions">
+                            <button type="button" class="cancel-btn" id="cancelEditPopup">
+                                Cancel
+                            </button>
+                            <button type="submit" class="submit-btn">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab');
+        const usersTableBody = document.getElementById('usersTableBody');
+        let currentTab = 'users';
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentTab = tab.dataset.tab;
+                displayUsers();
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', displayUsers);
+
+
+        // Success/Error popup functionality
+        const successPopup = document.getElementById('successPopup');
+        const successMessage = document.getElementById('successMessage');
+        const closeSuccessPopup = document.getElementById('closeSuccessPopup');
+
+        function showSuccessPopup(message) {
+            successMessage.textContent = message;
+            successPopup.style.display = 'flex';
+        }
+
+        closeSuccessPopup.addEventListener('click', () => {
+            successPopup.style.display = 'none';
+        });
+
+    // Fetch users from backend
+    async function fetchUsers() {
+    try {
+        const response = await fetch('/users');
+        const users = await response.json();
+        return users.map(user => ({
+            id: user.Data_User_ID,
+            name: user.Name,
+            email: user.Email,
+            phone: user.Phone_Number,
+            role: user.Role,
+            dateCreated: new Date(user.Created_At).toISOString().split('T')[0],
+            avatar: user.Profile_Image || './images/dashboard_images/profile.png'
+        }));
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        showErrorPopup('Failed to fetch users');
+        return [];
+    }
+}
+
+// Fetch data managers from backend
+async function fetchDataManagers() {
+    try {
+        const response = await fetch('/data-managers');
+        const managers = await response.json();
+        return managers.map(manager => ({
+            id: manager.Data_Manager_ID,
+            name: manager.Name,
+            email: manager.Email,
+            phone: manager.Phone_Number,
+            role: manager.Role,
+            dateCreated: new Date(manager.Created_At).toISOString().split('T')[0],
+            avatar: manager.Profile_Image || './images/dashboard_images/profile.png'
+        }));
+    } catch (error) {
+        console.error('Error fetching data managers:', error);
+        showErrorPopup('Failed to fetch data managers');
+        return [];
+    }
+}
+
+// Display users based on current tab and search
+async function displayUsers() {
+    const searchTerm = searchInput.value.toLowerCase();
+    let data = [];
+    
+    try {
+        if (currentTab === 'users') {
+            data = await fetchUsers();
+        } else {
+            data = await fetchDataManagers();
+        }
+
+        const filteredData = data.filter(item =>
+            Object.values(item).some(value => 
+                String(value).toLowerCase().includes(searchTerm)
+            )
+        );
+
+        usersTableBody.innerHTML = filteredData.map(item => `
+            <tr class="user-row" data-id="${item.id}">
+                <td>
+                    <div class="user-info">
+                        <img src="${item.avatar}" alt="${item.name}" class="user-avatar">
+                        <span>${item.name}</span>
+                    </div>
+                </td>
+                <td>${item.email}</td>
+                <td>${item.phone}</td>
+                <td><span class="status-badge">${item.role}</span></td>
+                <td>${item.dateCreated}</td>
+                <td class="action-buttons">
+                    <button class="edit-btn" onclick="editUser(${item.id})">Edit</button>
+                    <button class="delete-btn" onclick="deleteUser(${item.id})">Delete</button>
+                </td>
+            </tr>
+        `).join('');
+    } catch (error) {
+        console.error('Error displaying users:', error);
+        showErrorPopup('Failed to display users');
+    }
+}
+
+// Add new user/data manager
+
+
+// Edit user/data manager
+async function editUser(userId) {
+    try {
+        const user = currentTab === 'users' ? 
+            await fetchUserById(userId) : 
+            await fetchDataManagerById(userId);
+
+        if (user) {
+            currentEditId = userId;
+            document.getElementById('edit-name').value = user.Name;
+            document.getElementById('edit-email').value = user.Email;
+            document.getElementById('edit-phone').value = user.Phone_Number || '';
+            document.getElementById('edit-role').value = user.Role.toLowerCase();
+            editUserPopup.style.display = 'flex';
+        }
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+        showErrorPopup('Failed to fetch user details');
+    }
+}
+
+document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = {
+        Name: document.getElementById('edit-name').value.trim(),
+        Email: document.getElementById('edit-email').value.trim(),
+        Phone_Number: document.getElementById('edit-phone').value.trim(),
+        Role: document.getElementById('edit-role').value.toLowerCase(),
+    };
+
+    if (!formData.Name || !formData.Email || !formData.Phone_Number || !formData.Role) {
+        showErrorPopup('All fields are required.');
+        return;
+    }
+
+    const endpoint = currentTab === 'users' ?
+        `http://foodpandora.com/users/${currentEditId}` :
+        `http://foodpandora.com/data-managers/${currentEditId}`;
+
+    console.log('Sending request to:', endpoint);
+    console.log('Request payload:', formData);
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to update user');
+        }
+
+        document.getElementById('editUserPopup').style.display = 'none';
+        showSuccessPopup('User updated successfully!');
+        await displayUsers();
+    } catch (error) {
+        console.error('Error updating user:', error);
+        showErrorPopup(error.message || 'Error updating user.');
+    }
+});
+
+// Delete user/data manager
+async function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        try {
+            const endpoint = currentTab === 'users' ? 
+                `/users/${userId}` : 
+                `/data-managers/${userId}`;
+
+            const response = await fetch(endpoint, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) throw new Error('Failed to delete user');
+
+            showSuccessPopup('User deleted successfully!');
+            await displayUsers();
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            showErrorPopup('Failed to delete user');
+        }
+    }
+}
+
+
+
+// New Changes
+
+// Add these utility functions for error and success popups
+function showErrorPopup(message) {
+    const errorPopup = document.getElementById('errorPopup');
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = message;
+    errorPopup.style.display = 'flex';
+}
+
+function showSuccessPopup(message) {
+    const successPopup = document.getElementById('successPopup');
+    const successMessage = document.getElementById('successMessage');
+    successMessage.textContent = message;
+    successPopup.style.display = 'flex';
+}
+
+// Add close handlers for popups
+document.getElementById('closeErrorPopup').addEventListener('click', () => {
+    document.getElementById('errorPopup').style.display = 'none';
+});
+
+document.getElementById('closeSuccessPopup').addEventListener('click', () => {
+    document.getElementById('successPopup').style.display = 'none';
+});
+
+// Add these functions to fetch individual users/managers
+async function fetchUserById(userId) {
+    try {
+        const response = await fetch(`/users/${userId}`);
+        if (!response.ok) throw new Error('User not found');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        throw error;
+    }
+}
+async function fetchDataManagerById(userId) {
+    try {
+        const response = await fetch(`/data-managers/${userId}`);
+        if (!response.ok) throw new Error('Data manager not found');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching data manager:', error);
+        throw error;
+    }
+}
+
+// Fix the add user popup functionality
+const addUserBtn = document.querySelector('.add-user-btn');
+const addUserPopup = document.getElementById('addUserPopup');
+const addUserForm = document.getElementById('addUserForm');
+const cancelPopupBtn = document.getElementById('cancelPopup');
+
+// Show add user popup
+addUserBtn.addEventListener('click', () => {
+    addUserPopup.style.display = 'flex';
+});
+
+// Hide add user popup
+cancelPopupBtn.addEventListener('click', () => {
+    addUserPopup.style.display = 'none';
+    addUserForm.reset();
+});
+
+// Close popup when clicking outside
+addUserPopup.addEventListener('click', (e) => {
+    if (e.target === addUserPopup) {
+        addUserPopup.style.display = 'none';
+        addUserForm.reset();
+    }
+});
+
+// Add click outside handler for edit popup
+document.addEventListener('DOMContentLoaded', () => {
+const editUserPopup = document.getElementById('editUserPopup');
+editUserPopup.addEventListener('click', (e) => {
+    if (e.target === editUserPopup) {
+        editUserPopup.style.display = 'none';
+        document.getElementById('edit-name').value = '';
+        document.getElementById('edit-email').value = '';
+        document.getElementById('edit-phone').value = '';
+        document.getElementById('edit-role').value = '';
+    }
+});
+
+});
+
+// Fix for Cancel button in Edit Popup
+document.getElementById('cancelEditPopup').addEventListener('click', () => {
+    const editUserPopup = document.getElementById('editUserPopup');
+    editUserPopup.style.display = 'none';
+    document.getElementById('edit-name').value = '';
+    document.getElementById('edit-email').value = '';
+    document.getElementById('edit-phone').value = '';
+    document.getElementById('edit-role').value = '';
+});
+
+// Fix for Add Users Button
+document.querySelector('.add-user-btn').addEventListener('click', () => {
+    const addUserPopup = document.getElementById('addUserPopup');
+    addUserPopup.style.display = 'flex';
+});
+
+// Ensure Cancel for Add User Popup works
+document.getElementById('cancelPopup').addEventListener('click', () => {
+    const addUserPopup = document.getElementById('addUserPopup');
+    addUserPopup.style.display = 'none';
+    document.getElementById('addUserForm').reset();
+});
+
+// Ensure Save changes sends data to the server
+document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = {
+        Name: document.getElementById('edit-name').value.trim(),
+        Email: document.getElementById('edit-email').value.trim(),
+        Phone_Number: document.getElementById('edit-phone').value.trim(),
+        Role: document.getElementById('edit-role').value,
+    };
+
+    try {
+        // Ensure the URL is correct
+        const response = await fetch(`/users/${currentEditId}`, { // Use absolute path if needed
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json(); // Get the error response
+            console.error('Error response:', errorResponse); // Log the error response
+            throw new Error('Failed to update user');
+        }
+
+        document.getElementById('editUserPopup').style.display = 'none';
+        showSuccessPopup('User updated successfully!');
+        displayUsers();
+    } catch (error) {
+        console.error(error);
+        showErrorPopup('Error updating user.');
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const addUserForm = document.getElementById('addUserForm');
+
+    // Add event listeners for other elements
+    const addUserBtn = document.querySelector('.add-user-btn');
+    const addUserPopup = document.getElementById('addUserPopup');
+    const cancelPopupBtn = document.getElementById('cancelPopup');
+
+    // Show add user popup
+    addUserBtn.addEventListener('click', () => {
+        addUserPopup.style.display = 'flex';
+    });
+
+    // Hide add user popup
+    cancelPopupBtn.addEventListener('click', () => {
+        addUserPopup.style.display = 'none';
+        addUserForm.reset();
+    });
+
+    // Add user submission logic
+    addUserForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = {
+            Name: document.getElementById('new-entry-name').value.trim(),
+            Email: document.getElementById('new-entry-email').value.trim(),
+            Phone_Number: document.getElementById('new-entry-phone').value.trim(),
+            Role: document.getElementById('entry-type').value,
+            Password: document.getElementById('new-entry-password').value.trim(),
+        };
+
+        if (!formData.Name || !formData.Email || !formData.Phone_Number || !formData.Role || !formData.Password) {
+            showErrorPopup('All fields are required.');
+            return;
+        }
+    
+
+        console.log('Submitting payload:', formData);
+
+        try {
+            const response = await fetch('/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) throw new Error('Failed to add user');
+
+            addUserPopup.style.display = 'none';
+            addUserForm.reset();
+            showSuccessPopup('User added successfully!');
+            await displayUsers();
+        } catch (error) {
+            console.error('Error adding user:', error);
+            showErrorPopup('User already Exists!');
+        }
+    });
+});
+
+
+// Initialize the table
+document.addEventListener('DOMContentLoaded', displayUsers);
+    </script>
+
+ 
+</body>
+</html>
+

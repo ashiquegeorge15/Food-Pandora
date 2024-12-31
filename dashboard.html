@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- HEADER PART -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Pandora</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .logo img {
+            width: 40px;
+            margin-right: 15px;
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-items a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-items a:hover, .nav-items a.active {
+            color: #e31837;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .icon-button::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #e31837;
+            border-radius: 50%;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .welcome {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .welcome span {
+            color: #e31837;
+            font-weight: 700;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            display: block;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #e31837;
+        }
+
+        .quick-overview {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            flex: 0 1 250px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e31837;
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .tab {
+            padding: 10px 0;
+            color: #666;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            color: #e31837;
+            border-bottom: 3px solid #e31837;
+        }
+
+        .recipe-grid, .meal-planning {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .recipe-card, .meal-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .recipe-card:hover, .meal-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-image, .meal-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .recipe-info {
+            padding: 15px;
+        }
+
+        .recipe-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .recipe-meta {
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meal-card {
+            position: relative;
+        }
+
+        .meal-card h4 {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: #ffc107;
+        }
+
+        .views {
+            color: #666;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-items {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+
+            .nav-right {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .quick-overview {
+                flex-direction: column;
+            }
+
+            .stat-card {
+                flex: 1;
+            }
+        }
+
+        .dropdown {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    z-index: 1000;
+    display: none; /* Initially hidden */
+}
+
+.dropdown li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown li:hover {
+    background-color: #f0f0f0;
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="./images/dashboard_images/Food_pandora_logo.png" alt="Food Pandora Logo">
+            Food Pandora
+        </div>
+        <div class="nav-items">
+            <a href="/dashboard" class="active">Dashboard</a>
+            <a href="#">Recipe Maker</a>
+            <a href="/Nutri-Cal">Nutrition Calculator</a>
+            <a href="/upload_nutrition">Upload Nutrition</a>
+            <a href="/Nutrition_Calculator">View Nutrition</a>
+        </div>
+        <div class="nav-right">
+            <button class="icon-button">🔔</button>
+            <a href="/Profile">
+            <img src="./images/dashboard_images/profile.png" alt="Profile" class="profile-icon">
+            </a>
+        </div>
+        
+    </nav>
+
+    <div class="welcome">
+        <h2><span>Welcome!</span></h2>
+    </div>
+
+    <input type="search" id="searchBar" placeholder="🔍 Search for Recipes or Ingredients" class="search-bar">
+    <ul id="searchResults" class="dropdown"></ul>
+
+    <h3 class="section-title">Quick Overview</h3>
+    <div class="quick-overview">
+        <div class="stat-card">
+            <h4>Saved Recipes</h4>
+            <p id="savedRecipes">5</p>
+        </div>
+        <div class="stat-card">
+            <h4>Most Viewed Recipes</h4>
+            <p id="mostViewedRecipes">20</p>
+        </div>
+    </div>
+
+    <h3 class="section-title">Recipe Recommendations</h3>
+    <div class="tab-container" id="recipeTabs">
+        <div class="tab active" data-tab="recommended">Recommended for You</div>
+        <div class="tab" data-tab="trending">Trending Recipes</div>
+        <div class="tab" data-tab="recent">Recently Added Recipes</div>
+    </div>
+    <div class="recipe-grid" id="recipeGrid"></div>
+
+    <h3 class="section-title">Meal Planning</h3>
+    <div class="meal-planning">
+        <div class="meal-card">
+            <img src="/images/dashboard_images/breakfast.jpg" alt="Breakfast">
+            <h4>Breakfast</h4>
+        </div>
+        <div class="meal-card">
+            <img src="/images/dashboard_images/lunch.jpg" alt="Lunch">
+            <h4>Lunch</h4>
+        </div>
+        <div class="meal-card">
+            <img src="/images/dashboard_images/dinner.jpg" alt="Dinner">
+            <h4>Dinner</h4>
+        </div>
+        <div class="meal-card">
+            <img src="/images/dashboard_images/snaks.jpg" alt="Snacks">
+            <h4>Snacks</h4>
+        </div>
+    </div>
+
+    <h3 class="section-title">Community</h3>
+    <div class="tab-container" id="communityTabs">
+        <div class="tab active" data-tab="mostLiked">Most Liked Recipes</div>
+        <div class="tab" data-tab="topContributors">Top Contributors</div>
+    </div>
+    <div class="recipe-grid" id="communityGrid"></div>
+
+    <script>
+        // Recipe data
+        const recipeData = {
+            recommended: [
+                { title: 'Salad', ingredients: 5, time: 20, image: 'images/dashboard_images/Salad.jpg', rating: 4.5, views: 325 },
+                { title: 'Steak', ingredients: 6, time: 25, image: 'images/dashboard_images/Steak.jpg', rating: 4.2, views: 325 },
+                { title: 'Chicken Salami', ingredients: 8, time: 25, image: 'images/dashboard_images/Chicken Salami.jpg', rating: 4.0, views: 325 },
+                { title: 'Avocado Salad', ingredients: 8, time: 25, image: 'images/dashboard_images/avocado.jpg', rating: 3.9, views: 325 },
+                { title: 'Salad', ingredients: 8, time: 25, image: 'images/dashboard_images/Salad.jpg', rating: 3.9, views: 325 },
+                { title: 'Avocado Salad', ingredients: 8, time: 25, image: 'images/dashboard_images/Salad.jpg', rating: 3.9, views: 325 }
+            ],
+            trending: [
+                { title: 'Pasta', ingredients: 7, time: 30, image: 'images/dashboard_images/pasta.jpg', rating: 4.3, views: 450 },
+                { title: 'Burger', ingredients: 9, time: 35, image: 'images/dashboard_images/burger.jpg', rating: 4.1, views: 400 },
+                { title: 'Sushi', ingredients: 6, time: 40, image: 'images/dashboard_images/sushi.jpg', rating: 4.4, views: 375 },
+                { title: 'Pizza', ingredients: 8, time: 45, image: 'images/dashboard_images/pizza.jpg', rating: 4.0, views: 500 },
+                { title: 'Sushi', ingredients: 8, time: 45, image: 'images/dashboard_images/sushi.jpg', rating: 4.0, views: 500 },
+                { title: 'Pizza', ingredients: 8, time: 45, image: 'images/dashboard_images/pizza.jpg', rating: 4.0, views: 500 }
+            ],
+            recent: [
+                { title: 'Smoothie Bowl', ingredients: 5, time: 15, image: 'images/dashboard_images/bowl.jpg', rating: 4.2, views: 200 },
+                { title: 'Quinoa Salad', ingredients: 7, time: 20, image: 'images/dashboard_images/salad1.jpg', rating: 3.9, views: 180 },
+                { title: 'Grilled Salmon', ingredients: 6, time: 25, image: 'images/dashboard_images/salmon.jpg', rating: 4.5, views: 250 },
+                { title: 'Veggie Wrap', ingredients: 8, time: 15, image: 'images/dashboard_images/wrap.jpg', rating: 4.0, views: 220 },
+                { title: 'Grilled Salmon', ingredients: 6, time: 25, image: 'images/dashboard_images/salmon.jpg', rating: 4.5, views: 250 },
+                { title: 'Veggie Wrap', ingredients: 8, time: 15, image: 'images/dashboard_images/wrap.jpg', rating: 4.0, views: 220 }
+            ]
+        };
+
+        const communityData = {
+            mostLiked: [
+                { title: 'Fried Chicken', ingredients: 8, time: 45, image: 'images/dashboard_images/fried chicken.jpg', rating: 4.8, views: 1000 },
+                { title: 'Butter Chicken', ingredients: 10, time: 60, image: 'images/dashboard_images/butter chicken.jpg', rating: 4.7, views: 950 },
+                { title: 'Chicken Noodles', ingredients: 6, time: 30, image: 'images/dashboard_images/chicken noodles.jpg', rating: 4.5, views: 800 },
+                { title: 'Fried Rice', ingredients: 7, time: 25, image: 'images/dashboard_images/Fried Rice.jpg', rating: 4.4, views: 750 },
+                { title: 'Chicken Noodles', ingredients: 7, time: 25, image: 'images/dashboard_images/chicken noodles.jpg', rating: 4.4, views: 750 },
+                { title: 'Fried Rice', ingredients: 7, time: 25, image: 'images/dashboard_images/Fried Rice.jpg', rating: 4.4, views: 750 }
+            ],
+            topContributors: [
+                { title: 'Vegetable Curry', ingredients: 9, time: 40, image: 'images/dashboard_images/curry.jpg', rating: 4.6, views: 600 },
+                { title: 'Beef Stir Fry', ingredients: 8, time: 35, image: 'images/dashboard_images/fry.jpg', rating: 4.3, views: 550 },
+                { title: 'Mushroom Risotto', ingredients: 7, time: 45, image: 'images/dashboard_images/mushroom.jpg', rating: 4.5, views: 500 },
+                { title: 'Seafood Paella', ingredients: 10, time: 55, image: 'images/dashboard_images/seadfood.jpg', rating: 4.7, views: 700 },
+                { title: 'Mushroom Risotto', ingredients: 10, time: 55, image: 'images/dashboard_images/mushroom.jpg', rating: 4.7, views: 700 },
+                { title: 'Seafood Paella', ingredients: 10, time: 55, image: 'images/dashboard_images/seadfood.jpg', rating: 4.7, views: 700 },
+            ]
+        };
+
+        function createRecipeCard(recipe) {
+            return `
+                <div class="recipe-card">
+                    <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image">
+                    <div class="recipe-info">
+                        <h4 class="recipe-title">${recipe.title}</h4>
+                        <div class="recipe-meta">
+                            <span>${recipe.ingredients} ingredients | ${recipe.time} min</span>
+                            <div class="rating">
+                                <span class="stars">⭐ ${recipe.rating}</span>
+                                <span class="views">${recipe.views}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayRecipes(category) {
+            const recipeGrid = document.getElementById('recipeGrid');
+            recipeGrid.innerHTML = recipeData[category].map(createRecipeCard).join('');
+        }
+
+        function displayCommunityRecipes(category) {
+            const communityGrid = document.getElementById('communityGrid');
+            communityGrid.innerHTML = communityData[category].map(createRecipeCard).join('');
+        }
+
+        function enableHorizontalScroll(element) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            element.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - element.offsetLeft;
+                scrollLeft = element.scrollLeft;
+            });
+
+            element.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+
+            element.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+
+            element.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - element.offsetLeft;
+                const walk = (x - startX) * 2;
+                element.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayRecipes('recommended');
+            displayCommunityRecipes('mostLiked');
+
+            const recipeTabs = document.getElementById('recipeTabs');
+            const communityTabs = document.getElementById('communityTabs');
+
+            enableHorizontalScroll(recipeTabs);
+            enableHorizontalScroll(communityTabs);
+
+            // Tab switching for recipes
+            recipeTabs.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    recipeTabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    displayRecipes(tab.dataset.tab);
+                });
+            });
+
+            // Tab switching for community
+            communityTabs.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    communityTabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    displayCommunityRecipes(tab.dataset.tab);
+                });
+            });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const searchBar = document.getElementById('searchBar');
+    const searchResults = document.getElementById('searchResults');
+
+    searchBar.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        searchResults.innerHTML = ''; // Clear previous results
+
+        if (query) {
+            fetch(`/search?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error || data.message) {
+                        searchResults.innerHTML = '<li>No results found</li>';
+                    } else {
+                        data.forEach(product => {
+                            const li = document.createElement('li');
+                            li.textContent = product.Ingredient_Name;
+                            li.addEventListener('click', () => {
+                                searchBar.value = product.Ingredient_Name; // Set the selected value to the search bar
+                                searchResults.innerHTML = ''; // Clear the dropdown
+                                searchResults.style.display = 'none'; // Hide the dropdown
+                            });
+                            searchResults.appendChild(li);
+                        });
+                        searchResults.style.display = 'block'; // Show the dropdown
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                    searchResults.innerHTML = '<li>Error fetching results</li>';
+                    searchResults.style.display = 'block'; // Show the dropdown
+                });
+        } else {
+            searchResults.style.display = 'none'; // Hide the dropdown if query is empty
+        }
+    });
+});
+
+});
+
+    </script>
+</body>
+</html>

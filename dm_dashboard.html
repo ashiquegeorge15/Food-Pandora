@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Pandora</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .logo img {
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-items a {
+            text-decoration: none;
+            color: #666;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .welcome {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .welcome span {
+            color: #e31837;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .quick-overview {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            flex: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .tab {
+            padding: 5px 0;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            color: #e31837;
+            border-bottom: 2px solid #e31837;
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .recipe-info {
+            padding: 10px;
+        }
+
+        .recipe-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .recipe-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .meal-planning {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .meal-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .meal-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .meal-card h4 {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: #ffc107;
+        }
+
+        .views {
+            color: #666;
+            font-size: 12px;
+        }
+
+        a {
+    position: relative;
+    z-index: 10;
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="./images/dashboard_images/Food_pandora_logo.png" alt="Food Pandora Logo">
+            Food Pandora
+        </div>
+        <div class="nav-items">
+            <a href="#" class="active">Meal Planner</a>
+            <a href="#">Recipe Maker</a>
+            <a href="#">Nutrition Calculator</a>
+            <a href="#">Upload Nutrition</a>
+        </div>
+        <div class="nav-right">
+            <button class="icon-button">🔔</button>
+            <a href="/Profile">
+            <img src="/assets/img/profile-user.png" alt="Profile" class="profile-icon">
+            </a>
+            
+        </div>
+        
+    </nav>
+
+    <div class="welcome">
+        <h2><span>Welcome!</span></h2>
+    </div>
+
+    <input type="search" placeholder="🔍 Search for Recipes or Ingredients" class="search-bar">
+
+    <h3 class="section-title">Quick Overview</h3>
+    <div class="quick-overview">
+        <div class="stat-card">
+            <h4>Saved Recipes</h4>
+            <p>5</p>
+        </div>
+        <div class="stat-card">
+            <h4>Most Viewed Recipes</h4>
+            <p>20</p>
+        </div>
+    </div>
+
+    <h3 class="section-title">Recipe Recommendations</h3>
+    <div class="tab-container">
+        <div class="tab active" data-tab="recommended">Recommended for You</div>
+        <div class="tab" data-tab="trending">Trending Recipes</div>
+        <div class="tab" data-tab="recent">Recently Added Recipes</div>
+    </div>
+    <div class="recipe-grid" id="recipeGrid">
+        <!-- Recipe cards will be dynamically inserted here -->
+    </div>
+
+    <h3 class="section-title">Meal Planning</h3>
+    <div class="meal-planning">
+        <div class="meal-card">
+            <img src="https://via.placeholder.com/200x150?text=Breakfast" alt="Breakfast">
+            <h4>Breakfast</h4>
+        </div>
+        <div class="meal-card">
+            <img src="https://via.placeholder.com/200x150?text=Lunch" alt="Lunch">
+            <h4>Lunch</h4>
+        </div>
+        <div class="meal-card">
+            <img src="https://via.placeholder.com/200x150?text=Dinner" alt="Dinner">
+            <h4>Dinner</h4>
+        </div>
+        <div class="meal-card">
+            <img src="https://via.placeholder.com/200x150?text=Snacks" alt="Snacks">
+            <h4>Snacks</h4>
+        </div>
+    </div>
+
+    <h3 class="section-title">Community</h3>
+    <div class="tab-container">
+        <div class="tab active" data-tab="mostLiked">Most Liked Recipes</div>
+        <div class="tab" data-tab="topContributors">Top Contributors</div>
+    </div>
+    <div class="recipe-grid" id="communityGrid">
+        <!-- Community recipe cards will be dynamically inserted here -->
+    </div>
+
+    <script>
+        // Recipe data
+        const recipeData = {
+            recommended: [
+                { title: 'Salad', ingredients: 5, time: 20, image: 'https://in.pinterest.com/pin/1094445146934896845/', rating: 4.5, views: 325 },
+                { title: 'Steak', ingredients: 6, time: 25, image: 'https://via.placeholder.com/200x150?text=Steak', rating: 4.2, views: 325 },
+                { title: 'Chicken Salami', ingredients: 8, time: 25, image: 'https://via.placeholder.com/200x150?text=Chicken+Salami', rating: 4.0, views: 325 },
+                { title: 'Avocado Salad', ingredients: 8, time: 25, image: 'https://via.placeholder.com/200x150?text=Avocado+Salad', rating: 3.9, views: 325 }
+            ],
+            trending: [
+                { title: 'Pasta', ingredients: 7, time: 30, image: 'https://via.placeholder.com/200x150?text=Pasta', rating: 4.3, views: 450 },
+                { title: 'Burger', ingredients: 9, time: 35, image: 'https://via.placeholder.com/200x150?text=Burger', rating: 4.1, views: 400 },
+                { title: 'Sushi', ingredients: 6, time: 40, image: 'https://via.placeholder.com/200x150?text=Sushi', rating: 4.4, views: 375 },
+                { title: 'Pizza', ingredients: 8, time: 45, image: 'https://via.placeholder.com/200x150?text=Pizza', rating: 4.0, views: 500 }
+            ],
+            recent: [
+                { title: 'Smoothie Bowl', ingredients: 5, time: 15, image: 'https://via.placeholder.com/200x150?text=Smoothie+Bowl', rating: 4.2, views: 200 },
+                { title: 'Quinoa Salad', ingredients: 7, time: 20, image: 'https://via.placeholder.com/200x150?text=Quinoa+Salad', rating: 3.9, views: 180 },
+                { title: 'Grilled Salmon', ingredients: 6, time: 25, image: 'https://via.placeholder.com/200x150?text=Grilled+Salmon', rating: 4.5, views: 250 },
+                { title: 'Veggie Wrap', ingredients: 8, time: 15, image: 'https://via.placeholder.com/200x150?text=Veggie+Wrap', rating: 4.0, views: 220 }
+            ]
+        };
+
+        const communityData = {
+            mostLiked: [
+                { title: 'Fried Chicken', ingredients: 8, time: 45, image: 'https://via.placeholder.com/200x150?text=Fried+Chicken', rating: 4.8, views: 1000 },
+                { title: 'Butter Chicken', ingredients: 10, time: 60, image: 'https://via.placeholder.com/200x150?text=Butter+Chicken', rating: 4.7, views: 950 },
+                { title: 'Chicken Noodles', ingredients: 6, time: 30, image: 'https://via.placeholder.com/200x150?text=Chicken+Noodles', rating: 4.5, views: 800 },
+                { title: 'Fried Rice', ingredients: 7, time: 25, image: 'https://via.placeholder.com/200x150?text=Fried+Rice', rating: 4.4, views: 750 }
+            ],
+            topContributors: [
+                { title: 'Vegetable Curry', ingredients: 9, time: 40, image: 'https://via.placeholder.com/200x150?text=Vegetable+Curry', rating: 4.6, views: 600 },
+                { title: 'Beef Stir Fry', ingredients: 8, time: 35, image: 'https://via.placeholder.com/200x150?text=Beef+Stir+Fry', rating: 4.3, views: 550 },
+                { title: 'Mushroom Risotto', ingredients: 7, time: 45, image: 'https://via.placeholder.com/200x150?text=Mushroom+Risotto', rating: 4.5, views: 500 },
+                { title: 'Seafood Paella', ingredients: 10, time: 55, image: 'https://via.placeholder.com/200x150?text=Seafood+Paella', rating: 4.7, views: 700 }
+            ]
+        };
+
+        function createRecipeCard(recipe) {
+            return `
+                <div class="recipe-card">
+                    <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image">
+                    <div class="recipe-info">
+                        <h4 class="recipe-title">${recipe.title}</h4>
+                        <div class="recipe-meta">
+                            <span>${recipe.ingredients} ingredients | ${recipe.time} min</span>
+                            <div class="rating">
+                                <span class="stars">⭐ ${recipe.rating}</span>
+                                <span class="views">${recipe.views}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayRecipes(category) {
+            const recipeGrid = document.getElementById('recipeGrid');
+            recipeGrid.innerHTML = recipeData[category].map(createRecipeCard).join('');
+        }
+
+        function displayCommunityRecipes(category) {
+            const communityGrid = document.getElementById('communityGrid');
+            communityGrid.innerHTML = communityData[category].map(createRecipeCard).join('');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayRecipes('recommended');
+            displayCommunityRecipes('mostLiked');
+
+            // Tab switching for recipes
+            const recipeTabs = document.querySelectorAll('.tab-container:first-of-type .tab');
+            recipeTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    recipeTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    displayRecipes(tab.dataset.tab);
+                });
+            });
+
+            // Tab switching for community
+            const communityTabs = document.querySelectorAll('.tab-container:last-of-type .tab');
+            communityTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    communityTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    displayCommunityRecipes(tab.dataset.tab);
+                });
+            });
+
+            // Search functionality
+            const searchBar = document.querySelector('.search-bar');
+            searchBar.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const allRecipes = [...recipeData.recommended, ...recipeData.trending, ...recipeData.recent];
+                const filteredRecipes = allRecipes.filter(recipe => 
+                    recipe.title.toLowerCase().includes(searchTerm)
+                );
+                document.getElementById('recipeGrid').innerHTML = filteredRecipes.map(createRecipeCard).join('');
+            });
+        });
+    </script>
+</body>
+</html>

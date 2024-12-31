@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Food Pandora</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <img src="/placeholder.svg" alt="Food Pandora Logo" class="w-8 h-8">
+                <span class="font-semibold">Food Pandora</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="relative">
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                </button>
+                <img src="./images/dashboard_images/profile.png" alt="Profile" class="w-8 h-8 rounded-full">
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-6 max-w-2xl">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-4">
+            <div class="flex flex-col items-center">
+                <div class="relative mb-4">
+                    <label for="profile-upload" class="cursor-pointer">
+                        <img id="profile-image" src="./images/dashboard_images/profile.png" alt="ABC" class="w-24 h-24 rounded-full">
+                        <div class="absolute bottom-0 right-0 bg-gray-100 rounded-full p-1 border-2 border-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                    </label>
+                    <input type="file" id="profile-upload" class="hidden" accept="image/*">
+                </div>
+                <h1 id="username" class="text-xl font-semibold mb-2">ABC</h1>
+                <p id="user-title" class="text-gray-600 mb-4">FoodPandora User</p>
+                <button id="edit-profile-btn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                    Edit Profile
+                </button>
+                <button id="save-profile-btn" class="hidden px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                    Save Changes
+                </button>
+            </div>
+
+            <div class="flex justify-center gap-12 mt-6">
+                <div class="text-center">
+                    <p class="font-semibold">12</p>
+                    <p class="text-gray-600">Followers</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-semibold">24</p>
+                    <p class="text-gray-600">Following</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-semibold">6</p>
+                    <p class="text-gray-600">Recipes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Info -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-4">
+            <h2 class="text-lg font-semibold mb-4">Profile</h2>
+            <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <div>
+                        <p class="font-medium">About Me</p>
+                        <p id="about-me" class="text-gray-600">I love cooking Italian dishes and trying new recipes.</p>
+                        <textarea id="about-me-edit" class="hidden w-full p-2 border rounded-md" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <div>
+                        <p class="font-medium">Profession</p>
+                        <p id="profession" class="text-gray-600">Home cook and food enthusiast</p>
+                        <input id="profession-edit" type="text" class="hidden w-full p-2 border rounded-md">
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <div>
+                        <p class="font-medium">Email</p>
+                        <p id="profession" class="text-gray-600">abc@gmail.com</p>
+                        <input id="profession-edit" type="text" class="hidden w-full p-2 border rounded-md">
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <div>
+                        <p class="font-medium">Data of Birth</p>
+                        <p id="profession" class="text-gray-600">abc@gmail.com</p>
+                        <input id="profession-edit" type="text" class="hidden w-full p-2 border rounded-md">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Activity -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-4">
+            <h2 class="text-lg font-semibold mb-4">User Activity</h2>
+            
+            <!-- Saved Recipes -->
+            <div class="border-b pb-4 mb-4">
+                <button class="w-full flex items-center justify-between py-2 hover:text-red-500" data-toggle="saved-recipes">
+                    <span class="font-medium">Saved Recipes</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div id="saved-recipes" class="hidden mt-4">
+                    <!-- Content will be dynamically loaded -->
+                    <p class="text-gray-600">No saved recipes yet</p>
+                </div>
+            </div>
+
+            <!-- My Recipes -->
+            <div>
+                <button class="w-full flex items-center justify-between py-2 hover:text-red-500" data-toggle="my-recipes">
+                    <span class="font-medium">My Recipes</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div id="my-recipes" class="hidden mt-4">
+                    <!-- Content will be dynamically loaded -->
+                    <p class="text-gray-600">No recipes created yet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button id="logout-btn" class="w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors">
+            Logout
+        </button>
+    </main>
+
+    <script>
+        // DOM Elements
+        const profileUpload = document.getElementById('profile-upload');
+        const profileImage = document.getElementById('profile-image');
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const saveProfileBtn = document.getElementById('save-profile-btn');
+        const username = document.getElementById('username');
+        const userTitle = document.getElementById('user-title');
+        const aboutMe = document.getElementById('about-me');
+        const aboutMeEdit = document.getElementById('about-me-edit');
+        const profession = document.getElementById('profession');
+        const professionEdit = document.getElementById('profession-edit');
+
+        // Handle profile image upload
+        profileUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profileImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Toggle edit mode
+        editProfileBtn.addEventListener('click', () => {
+            toggleEditMode(true);
+        });
+
+        // Save changes
+        saveProfileBtn.addEventListener('click', () => {
+            saveChanges();
+            toggleEditMode(false);
+        });
+
+        function toggleEditMode(isEditing) {
+            editProfileBtn.classList.toggle('hidden', isEditing);
+            saveProfileBtn.classList.toggle('hidden', !isEditing);
+
+            // Toggle visibility of editable fields
+            aboutMe.classList.toggle('hidden', isEditing);
+            aboutMeEdit.classList.toggle('hidden', !isEditing);
+            profession.classList.toggle('hidden', isEditing);
+            professionEdit.classList.toggle('hidden', !isEditing);
+
+            if (isEditing) {
+                // Populate editable fields with current values
+                aboutMeEdit.value = aboutMe.textContent;
+                professionEdit.value = profession.textContent;
+                username.contentEditable = true;
+                userTitle.contentEditable = true;
+                username.classList.add('border', 'rounded-md', 'px-2');
+                userTitle.classList.add('border', 'rounded-md', 'px-2');
+            } else {
+                username.contentEditable = false;
+                userTitle.contentEditable = false;
+                username.classList.remove('border', 'rounded-md', 'px-2');
+                userTitle.classList.remove('border', 'rounded-md', 'px-2');
+            }
+        }
+
+        function saveChanges() {
+            // Update profile information with edited values
+            aboutMe.textContent = aboutMeEdit.value;
+            profession.textContent = professionEdit.value;
+            // Username and user title are directly edited in-place
+        }
+
+        // Handle expandable sections
+        document.querySelectorAll('[data-toggle]').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-toggle');
+                const targetElement = document.getElementById(targetId);
+                const icon = button.querySelector('svg');
+                
+                // Toggle visibility
+                targetElement.classList.toggle('hidden');
+                
+                // Rotate icon
+                icon.style.transform = targetElement.classList.contains('hidden') 
+                    ? 'rotate(0deg)' 
+                    : 'rotate(180deg)';
+            });
+        });
+
+        // Handle logout
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            // Add your logout logic here
+            console.log('Logging out...');
+        });
+    </script>
+</body>
+</html>

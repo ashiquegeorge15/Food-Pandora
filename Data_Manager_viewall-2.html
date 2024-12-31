@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Pandora - Ingredients</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .nav-link.active {
+            color: #E31837;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            font-size: 24px;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #E31837;
+            border-radius: 50%;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .ingredients-list {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .ingredient-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .ingredient-item:last-child {
+            border-bottom: none;
+        }
+
+        .ingredient-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            margin-right: 16px;
+        }
+
+        .ingredient-info {
+            flex: 1;
+        }
+
+        .ingredient-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .ingredient-nutrition {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .bottom-actions {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .back-btn {
+            background-color: #E31837;
+            color: white;
+            border: none;
+            padding: 12px 48px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #c41530;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .header {
+                padding: 12px 16px;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <img src="./images/dashboard_images/Food_pandora_logo.png" alt="Food Pandora Logo" class="logo">
+            <span class="logo-text">Food Pandora</span>
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-link">Meal Planner</a>
+            <a href="#" class="nav-link">Recipe Maker</a>
+            <a href="#" class="nav-link">Nutrition Calculator</a>
+            <a href="./Data_Manager_Dashboard.html" class="nav-link active">Dashboard</a>
+        </nav>
+        <div class="header-actions">
+            <button class="notification-btn" id="notificationBtn">
+                🔔
+                <span class="notification-dot"></span>
+            </button>
+            <img src="./images/dashboard_images/profile.png" alt="Profile" class="profile-img">
+        </div>
+    </header>
+
+    <main class="main-content">
+        <a href="./Data_Manager_Dashboard.html" class="back-button">
+            ← Back
+        </a>
+
+        <div class="ingredients-list" id="ingredientsList">
+            <!-- Ingredients will be dynamically inserted here -->
+        </div>
+
+        <div class="bottom-actions">
+            <button class="back-btn">Back</a></button>
+        </div>
+    </main>
+
+    <script>
+        // Ingredient data
+        const ingredients = [
+            {
+                name: 'Salad',
+                image: 'images/dashboard_images/Salad.jpg',
+                nutrition: {
+                    calories: 89,
+                    carbs: '23g',
+                    protein: '1.1g',
+                    fat: '0.3g'
+                }
+            },
+            {
+                name: 'Steak',
+                image: 'images/dashboard_images/Steak.jpg',
+                nutrition: {
+                    calories: 32,
+                    carbs: '7.7g',
+                    protein: '0.7g',
+                    fat: '0.3g'
+                }
+            },
+            {
+                name: 'Chicken Salami',
+                image: 'images/dashboard_images/Chicken Salami.jpg',
+                nutrition: {
+                    calories: 310,
+                    carbs: '65.4g',
+                    protein: '11.4g',
+                    fat: '5.9g'
+                }
+            },
+            {
+                name: 'Chicken Salami',
+                image: 'images/dashboard_images/Chicken Salami.jpg',
+                nutrition: {
+                    calories: 310,
+                    carbs: '65.4g',
+                    protein: '11.4g',
+                    fat: '5.9g'
+                }
+            },
+            {
+                name: 'Steak',
+                image: 'images/dashboard_images/Chicken Salami.jpg',
+                nutrition: {
+                    calories: 310,
+                    carbs: '65.4g',
+                    protein: '11.4g',
+                    fat: '5.9g'
+                }
+            },
+            {
+                name: 'Saffron',
+                image: 'images/Data_manager_images/saffron.jpg',
+                nutrition: {
+                    calories: 310,
+                    carbs: '65.4g',
+                    protein: '11.4g',
+                    fat: '5.9g'
+                }
+            },
+            {
+                name: 'Saffron',
+                image: 'images/Data_manager_images/saffron.jpg',
+                nutrition: {
+                    calories: 310,
+                    carbs: '65.4g',
+                    protein: '11.4g',
+                    fat: '5.9g'
+                }
+            },
+            {
+                name: 'Saffron',
+                image: 'images/Data_manager_images/saffron.jpg',
+                nutrition: {
+                    calories: 310,
+                    carbs: '65.4g',
+                    protein: '11.4g',
+                    fat: '5.9g'
+                }
+            },
+            {
+                name: 'Saffron',
+                image: 'images/Data_manager_images/saffron.jpg',
+                nutrition: {
+                    calories: 310,
+                    carbs: '65.4g',
+                    protein: '11.4g',
+                    fat: '5.9g'
+                }
+            },
+
+        ];
+
+        // Function to create ingredient items
+        function createIngredientItem(ingredient) {
+            return `
+                <div class="ingredient-item">
+                    <img src="${ingredient.image}" alt="${ingredient.name}" class="ingredient-icon">
+                    <div class="ingredient-info">
+                        <div class="ingredient-name">${ingredient.name}</div>
+                        <div class="ingredient-nutrition">
+                            Calories: ${ingredient.nutrition.calories}, Carbohydrates: ${ingredient.nutrition.carbs}, 
+                            Protein: ${ingredient.nutrition.protein}, Fat: ${ingredient.nutrition.fat}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Display ingredients
+            const ingredientsList = document.getElementById('ingredientsList');
+            ingredientsList.innerHTML = ingredients.map(createIngredientItem).join('');
+
+            // Handle back buttons
+            document.querySelectorAll('.back-btn, .back-button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // In a real app, this would navigate back
+                    console.log('Navigating back...');
+                });
+            });
+
+            // Handle notification button
+            const notificationBtn = document.getElementById('notificationBtn');
+            notificationBtn.addEventListener('click', () => {
+                // In a real app, this would show notifications
+                console.log('Opening notifications...');
+            });
+
+            // Handle navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+        });
+
+        document.getElementById('backBtn').addEventListener('click', () => {
+            window.location.href = './Data_Manager_Dashboard.html';
+        });
+        
+    </script>
+</body>
+</html>

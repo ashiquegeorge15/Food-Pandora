@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a1a1a;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .search-section {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        input {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        #searchInput {
+            flex: 1;
+        }
+
+        #weightInput {
+            width: 120px;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-result-item {
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-result-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .ingredients-list {
+            margin-bottom: 2rem;
+        }
+
+        .ingredient-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            padding: 0.5rem 1rem;
+        }
+
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .result-item {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .result-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .result-item h3 {
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .result-item p {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .input-group {
+                flex-direction: column;
+            }
+
+            #weightInput {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nutrition Calculator</h1>
+        
+        <div class="search-section">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search ingredient..."
+                    aria-label="Search for an ingredient"
+                >
+                <input 
+                    type="number" 
+                    id="weightInput" 
+                    placeholder="Weight (g)"
+                    min="0"
+                    aria-label="Enter weight in grams"
+                >
+                <button onclick="addIngredient()">Add</button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+
+        <div id="ingredientsList" class="ingredients-list"></div>
+
+        <button onclick="calculate()">Calculate Nutrition</button>
+
+        <div id="results" class="results">
+            <div class="result-item">
+                <h3>Energy</h3>
+                <p id="energy">0 kcal</p>
+            </div>
+            <div class="result-item">
+                <h3>Protein</h3>
+                <p id="protein">0 g</p>
+            </div>
+            <div class="result-item">
+                <h3>Carbohydrates</h3>
+                <p id="carbohydrates">0 g</p>
+            </div>
+            <div class="result-item">
+                <h3>Fat</h3>
+                <p id="fat">0 g</p>
+            </div>
+            <div class="result-item">
+                <h3>Minerals</h3>
+                <p id="minerals">0 g</p>
+            </div>
+            <div class="result-item">
+                <h3>Vitamins</h3>
+                <p id="vitamins">0 g</p>
+            </div>
+        </div>
+        <button onclick="window.location.href='dashboard.html'" style="margin-top: 20px;">Back to Home</button>
+
+    </div>
+
+    <script>
+        // Dummy nutrition database (values per 100g)
+
+        const ingredients = [];
+        let selectedIngredient = null;
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const weightInput = document.getElementById('weightInput');
+
+        // Search ingredients function
+        function searchIngredients(query) {
+    query = query.toLowerCase();
+    if (query.length < 2) {
+        searchResults.style.display = 'none';
+        return;
+    }
+    fetch(`/searchnutri?query=${query}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!Array.isArray(data)) {
+                console.error('Expected an array but got:', data);
+                searchResults.innerHTML = '<div>Error fetching results</div>';
+                searchResults.style.display = 'block';
+                return;
+            }
+            searchResults.innerHTML = '';
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'search-result-item';
+                div.textContent = item.Ingredient_Name;
+                div.onclick = () => selectIngredient(item);
+                searchResults.appendChild(div);
+            });
+            searchResults.style.display = data.length ? 'block' : 'none';
+        })
+        .catch(error => {
+            console.error('Error fetching search results:', error);
+            searchResults.innerHTML = '<div>Error fetching results</div>';
+            searchResults.style.display = 'block';
+        });
+}
+
+
+        // Select ingredient from search results
+        function selectIngredient(item) {
+            selectedIngredient = item;
+            searchInput.value = item.Ingredient_Name;
+            searchResults.style.display = 'none';
+        }
+
+        // Add ingredient to list
+        function addIngredient() {
+            if (!selectedIngredient || !weightInput.value) {
+                alert('Please select an ingredient and enter weight');
+                return;
+            }
+
+            const weight = parseFloat(weightInput.value);
+            if (weight <= 0) {
+                alert('Please enter a valid weight');
+                return;
+            }
+
+            ingredients.push({
+                name: selectedIngredient.Ingredient_Name, weight: weight });
+                updateIngredientsList();
+                resetInputs();
+            }
+
+
+        // Update ingredients list display
+        function updateIngredientsList() {
+            const list = document.getElementById('ingredientsList');
+            list.innerHTML = '';
+
+            ingredients.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'ingredient-item';
+                div.innerHTML = `
+                    <span>${item.name} - ${item.weight}g</span>
+                    <button class="remove-btn" onclick="removeIngredient(${index})">Remove</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        // Remove ingredient from list
+        function removeIngredient(index) {
+            ingredients.splice(index, 1);
+            updateIngredientsList();
+        }
+
+        // Reset input fields
+        function resetInputs() {
+            searchInput.value = '';
+            weightInput.value = '';
+            selectedIngredient = null;
+        }
+
+        // Calculate nutrition
+        function calculate() {
+            if (ingredients.length === 0) {
+                alert('Please add some ingredients first');
+                return;
+            }
+
+            const totals = {
+                Energy: 0,
+                protein: 0,
+                carbohydrates: 0,
+                fat: 0,
+                minerals: 0,
+                vitamins: 0
+            };
+
+            ingredients.forEach(({ name, weight, nutritionalInfo }) => {
+                if (nutritionalInfo) {
+                    const multiplier = weight / 100; // Convert to percentage of 100g
+                    totals.Energy += nutritionalInfo.Energy * multiplier;
+                    totals.Protein += nutritionalInfo.Protein * multiplier;
+                    totals.Carbohydrates += nutritionalInfo.Carbohydrates * multiplier;
+                    totals.Fat += nutritionalInfo.Fat * multiplier;
+                    totals.Minerals += nutritionalInfo.Minerals * multiplier;
+                    totals.Vitamins += nutritionalInfo.vitamins * multiplier;
+                    } else {
+                        console.warn(`Nutritional information for ${name} not found.`);
+                    }
+                });
+                Object.keys(totals).forEach(key => {
+                        totals[key] = Math.round(totals[key] * 100) / 100;
+                    });
+
+            // Update results display
+            document.getElementById('energy').textContent = `${totals.Energy} kcal`;
+            document.getElementById('protein').textContent = `${totals.Protein}g`;
+            document.getElementById('carbohydrates').textContent = `${totals.Carbohydrates}g`;
+            document.getElementById('fat').textContent = `${totals.Fat}g`;
+            document.getElementById('minerals').textContent = `${totals.Minerals}g`;
+            document.getElementById('vitamins').textContent = `${totals.Vitamins}g`;
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', (e) => searchIngredients(e.target.value));
+        
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        
+    </script>
+</body>
+</html>

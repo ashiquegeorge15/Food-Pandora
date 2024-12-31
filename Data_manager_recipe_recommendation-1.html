@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spaghetti Carbonara Recipe - Food Pandora</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .nav-link.active {
+            color: #E31837;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            font-size: 24px;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #E31837;
+            border-radius: 50%;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .recipe-hero {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+        }
+
+        .recipe-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .recipe-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .save-btn {
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            background: #E31837;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 32px 0 16px;
+        }
+
+        .creators {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .creator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 24px;
+        }
+
+        .creator-img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .ingredients-list {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .ingredient-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .ingredient-checkbox {
+            margin-right: 12px;
+        }
+
+        .step-checkbox {
+            margin-right: 12px;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .nutrition-item {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .nutrition-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #E31837;
+        }
+
+        .nutrition-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .recipe-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .instructions {
+            counter-reset: step;
+        }
+
+        .instruction-step {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: #E31837;
+            font-weight: 600;
+        }
+
+        .step-content {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .feedback-btn {
+            display: block;
+            width: 100%;
+            background: #E31837;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 32px;
+        }
+
+        .success-popup {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -20%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+        }
+
+        .success-popup h3 {
+            margin: 0;
+            color: #28a745; /* Green color for success */
+        }
+
+        .success-popup button {
+            background: #E31837;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .header {
+                padding: 12px 16px;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .recipe-meta {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <img src="./images/dashboard_images/Food_pandora_logo.png" alt="Food Pandora Logo" class="logo">
+            <span class="logo-text">Food Pandora</span>
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-link">Meal Planner</a>
+            <a href="#" class="nav-link">Recipe Maker</a>
+            <a href="#" class="nav-link">Nutrition Calculator</a>
+            <a href="#" class="nav-link active">Dashboard</a>
+        </nav>
+        <div class="header-actions">
+            <button class="notification-btn" id="notificationBtn">
+                🔔
+                <span class="notification-dot"></span>
+            </button>
+            <img src="./images/dashboard_images/profile.png" alt="Profile" class="profile-img">
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="recipe-hero">
+            <img src="./images/Data_manager_images/Spaghetti.jpg" alt="Spaghetti Carbonara" class="hero-image">
+            <div class="hero-overlay">
+                <h1 class="recipe-title">Spaghetti Carbonara</h1>
+                <div class="recipe-meta">
+                    <span>⏱️ 30 min</span>
+                    <div class="rating">
+                        ⭐ 4.8 (245 reviews)
+                    </div>
+                </div>
+                <button class="save-btn">Save</button>
+            </div>
+        </div>
+
+        <h2 class="section-title">How they made it</h2>
+        <div class="creators">
+            <div class="creator">
+                <img src="./images/dashboard_images/profile.png" alt="Chef John" class="creator-img">
+                <span>Chef John</span>
+            </div>
+            <div class="creator">
+                <img src="./images/dashboard_images/profile.png" alt="Chef Maria" class="creator-img">
+                <span>Chef Maria</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">Ingredients</h2>
+        <div class="ingredients-list" id="ingredientsList">
+            <div class="ingredient-item">
+                <input type="checkbox" class="ingredient-checkbox">
+                <span>Spaghetti Pasta - 1/2 kg (or desired portion per package)</span>
+            </div>
+            <div class="ingredient-item">
+                <input type="checkbox" class="ingredient-checkbox">
+                <span>Bacon/Pancetta - 200g</span>
+            </div>
+            <div class="ingredient-item">
+                <input type="checkbox" class="ingredient-checkbox">
+                <span>Eggs - 3 large</span>
+            </div>
+            <div class="ingredient-item">
+                <input type="checkbox" class="ingredient-checkbox">
+                <span>Parmesan Cheese - 1 cup (freshly grated)</span>
+            </div>
+            <div class="ingredient-item">
+                <input type="checkbox" class="ingredient-checkbox">
+                <span>Black Pepper - To taste (freshly ground)</span>
+            </div>
+            <div class="ingredient-item">
+                <input type="checkbox" class="ingredient-checkbox">
+                <span>Salt - To taste</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">Nutrition</h2>
+        <div class="nutrition-grid">
+            <div class="nutrition-item">
+                <div class="nutrition-value">650</div>
+                <div class="nutrition-label">Calories</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-value">25g</div>
+                <div class="nutrition-label">Protein</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-value">48g</div>
+                <div class="nutrition-label">Carbs</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-value">12g</div>
+                <div class="nutrition-label">Fat</div>
+            </div>
+        </div>
+        
+
+        <h2 class="section-title">Instructions</h2>
+        <div class="instructions" id="instructionList">
+            <div class="instruction-step">
+                <div class="step-header">Step 1</div>
+                <div class="step-content">
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Bring a large pot of salted water to boil</span>
+                    </div>
+
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Cook pasta according to package directions</span>
+                    </div>
+                    
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Reserve 1 cup of pasta cooking water before draining</span>
+                    </div>
+                </div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-header">Step 2</div>
+                <div class="step-content">
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>While pasta cooks, cut bacon into small pieces</span>
+                    </div>
+
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Cook in a large pan until crispy (about 5 minutes)</span>
+                    </div>
+                    
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Remove from heat but keep the bacon fat in the pan</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-header">Step 3</div>
+                <div class="step-content">
+
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>In a bowl, whisk together eggs, cheese, and pepper</span>
+                    </div>
+
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Add cooked pasta to the pan with bacon</span>
+                    </div>
+                    
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Quickly stir in the egg mixture while the pasta is hot</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-header">Step 4</div>
+                <div class="step-content">
+
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Add pasta water as needed for desired consistency</span>
+                    </div>
+
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Season with salt and additional pepper to taste</span>
+                    </div>
+                    
+                    <div class="step-content">
+                        <input type="checkbox" class="step-checkbox">
+                        <span>Serve immediately with extra grated cheese</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="feedbackFormPopup" class="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+            <div style="position:relative; background:white; width:90%; max-width:500px; margin:20px auto; padding:20px; border-radius:8px;">
+                <h3 style="margin-bottom:15px;">Feedback Form</h3>
+                <input type="text" id="feedbackSubject" placeholder="Subject" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ddd; border-radius:4px;">
+                <textarea id="feedbackDescription" placeholder="Description" style="width:100%; height:100px; padding:8px; margin-bottom:10px; border:1px solid #ddd; border-radius:4px;"></textarea>
+                <button onclick="submitFeedback()" style="background:#E31837; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;">Send Feedback</button>
+                <button onclick="closeFeedbackForm()" style="background:#666; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; margin-left:10px;">Cancel</button>
+            </div> 
+        </div>
+        <div id="overlay" class="overlay">
+            <div id="successPopup" class="success-popup">
+                <h3>Feedback sent successfully!</h3>
+                <button onclick="closeSuccessPopup()">Close</button>
+            </div>
+        </div>  
+
+        <button class="feedback-btn" onclick="showFeedbackForm()">Give Feedback</button>
+
+        
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle ingredient checkboxes
+            const ingredientsList = document.getElementById('ingredientsList');
+            ingredientsList.addEventListener('change', (e) => {
+                if (e.target.matches('.ingredient-checkbox')) {
+                    const ingredientText = e.target.nextElementSibling;
+                    ingredientText.style.textDecoration = e.target.checked ? 'line-through' : 'none';
+                }
+            });
+
+            const instructions = document.getElementById('instructionList');
+            instructionList.addEventListener('change', (e) => {
+                if (e.target.matches('.step-checkbox')) {
+                    const instructionText = e.target.nextElementSibling;
+                    instructionText.style.textDecoration = e.target.checked ? 'line-through' : 'none';
+                }
+            });
+
+            // Handle save button
+            const saveBtn = document.querySelector('.save-btn');
+            saveBtn.addEventListener('click', () => {
+                saveBtn.textContent = saveBtn.textContent === 'Save' ? 'Saved' : 'Save';
+                saveBtn.style.backgroundColor = saveBtn.textContent === 'Saved' ? '#28a745' : '#E31837';
+            });
+
+            // Handle navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            // Handle notification button
+            const notificationBtn = document.getElementById('notificationBtn');
+            notificationBtn.addEventListener('click', () => {
+                alert('Notifications panel would open here');
+            });
+
+            // Store initial scroll position for smooth scrolling
+            let lastScrollTop = 0;
+
+            // Smooth scroll handling
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                if (currentScroll > lastScrollTop) {
+                    // Scrolling down
+                    document.querySelector('.header').style.transform = 'translateY(-100%)';
+                } else {
+                    // Scrolling up
+                    document.querySelector('.header').style.transform = 'translateY(0)';
+                }
+                lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+            }, false);
+        });
+
+       // Show Feedback Form
+        function showFeedbackForm() {
+        document.getElementById('feedbackFormPopup').style.display = 'block';
+       }
+
+       // Close Feedback form
+       function closeFeedbackForm() {
+        document.getElementById('feedbackFormPopup').style.display = 'none';
+       }
+
+       // Submit feedback
+        function submitFeedback() {
+            const subject = document.getElementById('feedbackSubject').value;
+            const description = document.getElementById('feedbackDescription').value;
+
+            if (!subject || !description) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Here you would typically send the data to a server
+            console.log('Feedback submitted:', { subject, description });
+
+            // Show success message
+            alert('Feedback sent successfully!');
+            closeFeedbackForm();
+        }
+
+        // Submit feedback
+        function submitFeedback() {
+            const subject = document.getElementById('feedbackSubject').value;
+            const description = document.getElementById('feedbackDescription').value;
+
+            if (!subject || !description) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Here you would typically send the data to a server
+            console.log('Feedback submitted:', { subject, description });
+
+            // Show success message popup
+            document.getElementById('successPopup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+            closeFeedbackForm();
+        }
+
+        // Close success popup
+        function closeSuccessPopup() {
+            document.getElementById('successPopup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+
+        // Add click handler to the feedback button
+        const feedbackBtn = document.querySelector('.feedback-btn');
+        feedbackBtn.addEventListener('click', showFeedbackForm);
+
+
+        
+
+
+        </script>
+    </body>
+</html>

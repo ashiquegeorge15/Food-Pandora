@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition Form</title>
+</head>
+<body>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    .form-container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      margin-top: 20px;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 5px;
+    }
+
+    form label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    form input, form textarea, form select, form button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    form button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    form button:hover {
+      background: #0056b3;
+    }
+  </style>
+  <div class="form-container">
+    <h2>Nutrition Information Form</h2>
+    <form action="/add-product" method="POST" enctype="application/x-www-form-urlencoded">
+      <h3>General Information</h3>
+      <label for="ingredientName">Ingredient Name:</label>
+      <input type="text" id="ingredientName" name="Ingredient_Name">
+
+      <label for="ingredientsList">Ingredients List:</label>
+      <textarea id="ingredientsList" name="Ingredients_List" rows="3"></textarea>
+
+      <h3>Nutritional Information</h3>
+      <label for="fssaiLicense">FSSAI License:</label>
+      <input type="text"  name="Product_Details.FSSAI_License">
+
+      <label for="manufacturerName">Manufacturer Name:</label>
+      <input type="text" name="Product_Details.Manufacturer_Name">
+
+      <label for="manufacturerAddress">Manufacturer Address:</label>
+      <textarea  name="Product_Details.Manufacturer_Address" rows="3"></textarea>
+
+      <label for="price">Price (₹):</label>
+      <input type="number" name="Product_Details.Price" step="0.01">
+
+      <label for="netQuantity">Net Quantity (g/ml):</label>
+      <input type="number" name="Product_Details.Net_Quantity" step="0.01">
+
+      <label for="storageInstructions">Storage Instructions:</label>
+      <textarea name="Product_Details.Storage_Instructions" rows="3"></textarea>
+
+      <label for="barcode">Barcode:</label>
+      <input type="text" name="Product_Details.Barcode">
+
+      <h3>Macronutrients</h3>
+      <label for="energy">Energy (kcal):</label>
+      <input type="number" id="energy" name="Energy_Macronutrients.Energy" step="0.01">
+
+      <label for="protein">Protein (g):</label>
+      <input type="number" id="protein" name="Energy_Macronutrients.Protein" step="0.01">
+
+      <label for="carbohydrate">Carbohydrate (g):</label>
+      <input type="number" id="carbohydrate" name="Energy_Macronutrients.Carbohydrate" step="0.01">
+
+      <label for="totalSugar">Total Sugar (g):</label>
+      <input type="number" id="totalSugar" name="Energy_Macronutrients.Total_Sugar" step="0.01">
+
+      <label for="addedSugar">Added Sugar (g):</label>
+      <input type="number" id="addedSugar" name="Energy_Macronutrients.Added_Sugar" step="0.01">
+
+      <h3>Amino Acids</h3>
+      <label for="histidine">Histidine (g):</label>
+      <input type="number" id="histidine" name="Amino_Acids.Histidine" step="0.01">
+
+      <label for="isoleucine">Isoleucine (g):</label>
+      <input type="number" id="isoleucine" name="Amino_Acids.Isoleucine" step="0.01">
+
+      <h3>Vitamins</h3>
+      <label for="carotene">Carotene (µg):</label>
+      <input type="number" id="carotene" name="Vitamins.Carotene" step="0.01">
+
+      <label for="thiamine">Thiamine (mg):</label>
+      <input type="number" id="thiamine" name="Vitamins.Thiamine" step="0.01">
+
+      <h3>Minerals</h3>
+      <label for="sodium">Sodium (mg):</label>
+      <input type="number" id="sodium" name="Minerals.Sodium" step="0.01">
+
+      <label for="calcium">Calcium (mg):</label>
+      <input type="number" id="calcium" name="Minerals.Calcium" step="0.01">
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

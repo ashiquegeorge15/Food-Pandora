@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share your knowledge to the World!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            /* margin-bottom: 32px; */
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 40px;
+
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #FF385C;
+            margin-bottom: 20px;
+
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #FF385C;
+        }
+
+        .image-upload {
+            border: 2px dashed #E0E0E0;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: #FF385C;
+        }
+
+        .image-upload img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .nutrition-section {
+            border-top: 1px solid #E0E0E0;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .nutrition-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 12px 0;
+        }
+
+        .nutrition-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 16px 0;
+        }
+
+        .submit-button {
+            background: #FF385C;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #E31837;
+        }
+
+        .error-field {
+            border-color: #FF385C;
+        }
+
+        .error {
+            color: #FF385C;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .expandable-section {
+            margin-bottom: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #F8F8F8;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .section-content {
+            padding: 16px 0;
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .file-upload {
+            border: 2px dashed #E0E0E0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-button img {
+            margin-right: 16px;
+            width: 20px; /* Set the desired width */
+            height: 20px; /* Set the desired height */
+            top: 20px; /* Adjust the top position */
+            left: 20px; /* Adjust the left position */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .logo img {
+            width: 40px;
+            margin-right: 15px;
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-items a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-items a:hover, .nav-items a.active {
+            color: #e31837;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .icon-button::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #e31837;
+            border-radius: 50%;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-items {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+
+            .nav-right {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: flex-end;
+            }    
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="./images/dashboard_images/Food_pandora_logo.png" alt="Food Pandora Logo">
+            Food Pandora
+        </div>
+        <div class="nav-items">
+            <a href="/dashboard" >Dashboard</a>
+            <a href="#">Recipe Maker</a>
+            <a href="Nutrition_Calculator" class="active">Nutrition Calculator</a>
+            <a href="/upload_nutrition">View Nutrition</a>
+        </div>
+        <div class="nav-right">
+            <button class="icon-button">🔔</button>
+            <a href="/Profile">
+            <img src="./images/dashboard_images/profile.png" alt="Profile" class="profile-icon">
+            </a>
+        </div>
+        
+    </nav>
+
+    <div class="container">
+        <a href="/Nutrition_Calculator" class="back-button">
+            <img src="/images/back.png" alt="Back Arrow" />
+        </a>
+        <center>
+        <h1>Update Nutrtional Value</h1>
+    </center>
+
+        
+            <form id="nutritionalForm" enctype="multipart/form-data" method="POST">
+                <div class="form-group">
+                    <label for="ingredient_name">Item Name<span style="color: red;">*</span></label>
+                    <input type="text" id="ingredient_name" name="ingredient_name"  class="input-field" required>
+                    <span class="error"></span>
+                </div>
+            
+                <div class="form-group">
+                    <label>Upload a Photo</label>
+                    <div class="image-upload" id="imageUpload">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#666">
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7m4 0h4m0 0v4m0-4l-5 5M9 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                        </svg>
+                        <p style="margin-top: 12px; color: #666;">Click or drag image to upload</p>
+                        <input type="file" id="product_photo" name="product_photo" accept="image/*" style="display: none">
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <h3>Nutritional Information</h3>
+                    <div class="nutrition-content">
+                        <div class="form-group">
+                            <label for="energy">Energy (kcal)<span style="color: red;">*</span></label>
+                            <input type="number" id="energy" name="energy" step="0.1"  class="input-field" required>
+                        
+                        </div>
+                        <div class="form-group">
+                            <label for="protein">Protein (g)<span style="color: red;">*</span></label>
+                            <input type="number" id="protein" name="protein" step="0.1"  class="input-field" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="carbohydrate">Carbohydrate (g)<span style="color: red;">*</span></label>
+                            <input type="number" id="carbohydrate" name="carbohydrate" step="0.1"  class="input-field" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fat">Fat (g)<span style="color: red;">*</span></label>
+                            <input type="number" id="fat" name="fat" step="0.1"  class="input-field" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="net_quantity">Net Quantity (g) <span style="color: red;">*</span></label>
+                            <input type="number" id="net_quantity" name="net_quantity" step="0.1" class="input-field" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-card">
+                    <h3>Product Details</h3>
+                    <div class="nutrition-content">
+                        <div class="form-group">
+                            <label for="fssai_license">FSSAI License</label>
+                            <input type="text" id="fssai_license" name="fssai_license"  class="input-field>
+                        </div>
+                        <div class="form-group">
+                            <label for="manufacturer_name">Manufacturer Name</label>
+                            <input type="text" id="manufacturer_name" name="manufacturer_name" class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price (₹)</label>
+                            <input type="number" id="price" name="price" step="0.01" class="input-field">
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <div class="expandable-section">
+                        <div class="section-header">
+                            <h3>Amino Acids</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="nutrition-content">
+                                <div class="form-group">
+                                    <label for="histidine">Histidine (g)</label>
+                                    <input type="number" id="histidine" name="histidine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="isoleucine">Isoleucine (g)</label>
+                                    <input type="number" id="isoleucine" name="isoleucine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="leucine">Leucine (g)</label>
+                                    <input type="number" id="leucine" name="leucine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lysine">Lysine (g)</label>
+                                    <input type="number" id="lysine" name="lysine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="methionine">Methionine (g)</label>
+                                    <input type="number" id="methionine" name="methionine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phenylalanine">Phenylalanine (g)</label>
+                                    <input type="number" id="phenylalanine" name="phenylalanine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="threonine">Threonine (g)</label>
+                                    <input type="number" id="threonine" name="threonine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tryptophan">Tryptophan (g)</label>
+                                    <input type="number" id="tryptophan" name="tryptophan" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="valine">Valine (g)</label>
+                                    <input type="number" id="valine" name="valine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="alanine">Alanine (g)</label>
+                                    <input type="number" id="alanine" name="alanine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="arginine">Arginine (g)</label>
+                                    <input type="number" id="arginine" name="arginine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="asparagine">Asparagine (g)</label>
+                                    <input type="number" id="asparagine" name="asparagine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="aspartic_acid">Aspartic acid (g)</label>
+                                    <input type="number" id="aspartic_acid" name="aspartic_acid" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cysteine">Cysteine (g)</label>
+                                    <input type="number" id="cysteine" name="cysteine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="glutamic_acid">Glutamic acid (g)</label>
+                                    <input type="number" id="glutamic_acid" name="glutamic_acid" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="glutamine">Glutamine (g)</label>
+                                    <input type="number" id="glutamine" name="glutamine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="glycine">Glycine (g)</label>
+                                    <input type="number" id="glycine" name="glycine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="proline">Proline (g)</label>
+                                    <input type="number" id="proline" name="proline" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="serine">Serine (g)</label>
+                                    <input type="number" id="serine" name="serine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tyrosine">Tyrosine (g)</label>
+                                    <input type="number" id="tyrosine" name="tyrosine" step="0.1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="form-card">
+                    <div class="expandable-section">
+                        <div class="section-header">
+                            <h3>Vitamins</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="nutrition-content">
+                                <div class="form-group">
+                                    <label for="carotene">Carotene (μg)</label>
+                                    <input type="number" id="carotene" name="carotene" step="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="thiamine">Thiamine (mg)</label>
+                                    <input type="number" id="thiamine" name="thiamine" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="riboflavin">Riboflavin (mg)</label>
+                                    <input type="number" id="riboflavin" name="riboflavin" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="niacin">Niacin (mg)</label>
+                                    <input type="number" id="niacin" name="niacin" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="total_b6">Total B6 (mg)</label>
+                                    <input type="number" id="total_b6" name="total_b6" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="folic_acid">Folic Acid (μg)</label>
+                                    <input type="number" id="folic_acid" name="folic_acid" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vit_c">Vitamin C (mg)</label>
+                                    <input type="number" id="vit_c" name="vit_c" step="0.1">
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <div class="expandable-section">
+                        <div class="section-header">
+                            <h3>Minerals</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="nutrition-content">
+                                <div class="form-group">
+                                    <label for="sodium">Sodium (mg)</label>
+                                    <input type="number" id="sodium" name="sodium" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="calcium">Calcium (mg)</label>
+                                    <input type="number" id="calcium" name="calcium" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phosphorous">Phosphorous (mg)</label>
+                                    <input type="number" id="phosphorous" name="phosphorous" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="iron">Iron (mg)</label>
+                                    <input type="number" id="iron" name="iron" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="choline">Choline (mg)</label>
+                                    <input type="number" id="choline" name="choline" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="magnesium">Magnesium (mg)</label>
+                                    <input type="number" id="magnesium" name="magnesium" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="potassium">Potassium (mg)</label>
+                                    <input type="number" id="potassium" name="potassium" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="copper">Copper (mg)</label>
+                                    <input type="number" id="copper" name="copper" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="manganese">Manganese (mg)</label>
+                                    <input type="number" id="manganese" name="manganese" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="molybdenum">Molybdenum (μg)</label>
+                                    <input type="number" id="molybdenum" name="molybdenum" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zinc">Zinc (mg)</label>
+                                    <input type="number" id="zinc" name="zinc" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="chromium">Chromium (μg)</label>
+                                    <input type="number" id="chromium" name="chromium" step="0.1">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group">
+                    <label>Upload CSV File</label>
+                    <div class="file-upload">
+                        <input type="file" id="csv_file" name="csv_file" accept=".csv">
+                    </div>
+                </div> -->
+
+                <button type="submit" class="submit-button">Submit</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+
+window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 100) {
+            document.body.classList.add('scrolled');
+        } else {
+            document.body.classList.remove('scrolled');
+        }
+    });
+        // Toggle expandable sections
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('.expand-icon');
+                content.classList.toggle('active');
+                icon.textContent = content.classList.contains('active') ? '-' : '+';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    if (productId) {
+        try {
+            // Fetch product details from the server
+            const response = await fetch(`/getProduct/${productId}`);
+            if (!response.ok) throw new Error('Failed to fetch product details');
+
+            const product = await response.json();
+
+            // Populate form fields with the fetched data
+            document.getElementById('ingredient_name').value = product.Ingredient_Name || '';
+            document.getElementById('energy').value = product.Nutritional_Information?.Energy || '';
+            document.getElementById('protein').value = product.Nutritional_Information?.Protein || '';
+            document.getElementById('carbohydrate').value = product.Nutritional_Information?.Carbohydrate || '';
+            document.getElementById('fat').value = product.Nutritional_Information?.Fat || '';
+            document.getElementById('net_quantity').value = product.Product_Details?.Net_Quantity || '';
+            document.getElementById('fssai_license').value = product.Product_Details?.FSSAI_License|| '';
+            document.getElementById('manufacturer_name').value = product.Product_Details?.Manufacturer_Name|| '';
+            document.getElementById('price').value = product.Product_Details?.Price|| '';
+            
+            
+        } catch (error) {
+            console.error('Error fetching product details:', error);
+            alert('Failed to load product details.');
+        }
+    }
+});
+
+
+document.getElementById('nutritionalForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const productId = new URLSearchParams(window.location.search).get('id');
+
+    const data = {
+        Ingredient_Name: formData.get('ingredient_name'),
+        Nutritional_Information: {
+            Energy: Number(formData.get('energy')) || 0,
+            Protein: Number(formData.get('protein')) || 0,
+            Carbohydrate: Number(formData.get('carbohydrate')) || 0,
+            Fat: Number(formData.get('fat')) || 0
+        },
+        Product_Details: {
+            FSSAI_License: formData.get('fssai_license'),
+            Manufacturer_Name: formData.get('manufacturer_name'),
+            Manufacturer_Address: formData.get('manufacturer_address'),
+            Price: Number(formData.get('price')) || 0,
+            Net_Quantity: Number(formData.get('net_quantity')) || 0,
+            Storage_Instructions: formData.get('storage_instructions'),
+            Barcode: formData.get('barcode')
+        },
+        Amino_Acids: {
+            Histidine: Number(formData.get('histidine')) || 0,
+            Isoleucine: Number(formData.get('isoleucine')) || 0,
+            Leucine: Number(formData.get('leucine')) || 0,
+            Lysine: Number(formData.get('lysine')) || 0,
+            Methionine: Number(formData.get('methionine')) || 0,
+            Phenylalanine: Number(formData.get('phenylalanine')) || 0,
+            Threonine: Number(formData.get('threonine')) || 0,
+            Tryptophan: Number(formData.get('tryptophan')) || 0,
+            Valine: Number(formData.get('valine')) || 0,
+            Alanine: Number(formData.get('alanine')) || 0,
+            Arginine: Number(formData.get('arginine')) || 0,
+            Asparagine: Number(formData.get('asparagine')) || 0,
+            Aspartic_Acid: Number(formData.get('aspartic_acid')) || 0,
+            Cysteine: Number(formData.get('cysteine')) || 0,
+            Glutamic_Acid: Number(formData.get('glutamic_acid')) || 0,
+            Glutamine: Number(formData.get('glutamine')) || 0,
+            Glycine: Number(formData.get('glycine')) || 0,
+            Proline: Number(formData.get('proline')) || 0,
+            Serine: Number(formData.get('serine')) || 0,
+            Tyrosine: Number(formData.get('tyrosine')) || 0
+        },
+        Vitamins: {
+            Carotene: Number(formData.get('carotene')) || 0,
+            Thiamine: Number(formData.get('thiamine')) || 0,
+            Riboflavin: Number(formData.get('riboflavin')) || 0,
+            Niacin: Number(formData.get('niacin')) || 0,
+            Total_B6: Number(formData.get('total_b6')) || 0,
+            Folic_Acid: Number(formData.get('folic_acid')) || 0,
+            Vitamin_C: Number(formData.get('vitamin_c')) || 0
+        },
+        Minerals: {
+            Sodium: Number(formData.get('sodium')) || 0,
+            Calcium: Number(formData.get('calcium')) || 0,
+            Phosphorous: Number(formData.get('phosphorous')) || 0,
+            Iron: Number(formData.get('iron')) || 0,
+            Choline: Number(formData.get('choline')) || 0,
+            Magnesium: Number(formData.get('magnesium')) || 0,
+            Potassium: Number(formData.get('potassium')) || 0,
+            Copper: Number(formData.get('copper')) || 0,
+            Manganese: Number(formData.get('manganese')) || 0,
+            Molybdenum: Number(formData.get('molybdenum')) || 0,
+            Zinc: Number(formData.get('zinc')) || 0,
+            Chromium: Number(formData.get('chromium')) || 0
+        }
+    };
+
+    try {
+        const response = await fetch(`/updateProduct/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert('Product updated successfully!');
+            window.location.href = '/Nutrition_Calculator'; 
+        } else {
+            alert(`Error: ${result.message}`);
+        }
+    } catch (error) {
+        console.error('Submission error:', error);
+        alert('Failed to update product');
+    }
+});
+
+    </script>
+</body>
+</html>

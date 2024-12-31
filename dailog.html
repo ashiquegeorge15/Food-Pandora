@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Success</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <style>
+        /* Hidden by default */
+        .hidden {
+            display: none;
+        }
+
+        /* Overlay background */
+        .dialog-box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Dialog content styling */
+        .dialog-content {
+            background: #fff;
+            padding: 20px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Heading */
+        .dialog-content h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        /* Paragraph */
+        .dialog-content p {
+            margin: 10px 0 20px;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Button styling */
+        .dialog-content button {
+            background-color: #e63946;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dialog-content button:hover {
+            background-color: #d62839;
+        }
+
+        /* Animation for smooth dialog appearance */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+
+    <div id="dialog-box" class="dialog-box">
+        <div class="dialog-content">
+            <h2>Registration Successful</h2>
+            <p>You will be redirected to the login page shortly.</p>
+            <button id="close-dialog">OK</button>
+        </div>
+    </div>
+
+    <script>
+      // Redirect after successful registration (3-second delay)
+      const closeDialogButton = document.getElementById('close-dialog');
+      
+      // Redirect to login page after 3 seconds automatically
+      setTimeout(() => {
+        window.location.href = '/login';  // This matches the Express route to login.html
+      }, 3000);
+  
+      // Optional: Close dialog and redirect immediately when the button is clicked
+      closeDialogButton.addEventListener('click', () => {
+        window.location.href = '/login';  // This matches the Express route to login.html
+      });
+
+
+    </script>
+</body>
+</html>

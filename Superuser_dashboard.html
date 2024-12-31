@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Pandora Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        :root {
+            --primary-color: #E31837;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --bg-color: #F8F8F8;
+            --white: #FFFFFF;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background: var(--white);
+            padding: 24px 16px;
+            height: 100vh;
+            position: fixed;
+            border-right: 1px solid #EEEEEE;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 32px;
+            padding: 0 8px;
+        }
+
+        .logo img {
+            height: 32px;
+        }
+
+        .logo span {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 240px;
+            padding: 24px;
+            width: calc(100% - 240px);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .tab {
+            padding: 8px 0;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        /* Recipe Grid */
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .recipe-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .recipe-content {
+            padding: 16px;
+        }
+
+        .recipe-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Ingredients Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .view-all {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .ingredient-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .ingredient-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .ingredient-name {
+            padding: 12px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Charts Section */
+        .chart-section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-title {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-trend {
+            font-size: 14px;
+            color: #22C55E;
+        }
+
+        /* Table Styles */
+        .recipe-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .recipe-table th,
+        .recipe-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .recipe-table th {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .recipe-table td {
+            color: var(--text-primary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .notification-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .profile-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="./images/dashboard_images/Food_pandora_logo.png" alt="Food Pandora">
+                <span>Food Pandora</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/SuperUser_Dashboard" class="nav-item active">Dashboard</a>
+                <a href="#" class="nav-item">Audits</a>
+                <a href="#" class="nav-item">Ingredients Manager</a>
+                <a href="#" class="nav-item">Recipe Manager</a>
+                <a href="/SuperUser_Manage_User" class="nav-item">Manage Users</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">Overview</h1>
+                <div class="user-actions">
+                    <button class="notification-btn">
+                        <span class="notification-dot"></span>
+                        🔔
+                    </button>
+                    <a href="/Profile" ><img src="./images/dashboard_images/profile.png" alt="Profile" class="profile-img"></a>
+                </div>
+            </div>
+
+            <div class="tab-container">
+                <div class="tab active" data-tab="recently">Recently Added</div>
+                <div class="tab" data-tab="trending">Trending Recipes</div>
+                <div class="tab" data-tab="recommended">Recommended</div>
+            </div>
+
+            <div class="recipe-grid" id="recipeGrid">
+                <!-- Recipe cards will be inserted here -->
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Recently Added Ingredients</h2>
+                <a href="#" class="view-all">view all</a>
+            </div>
+
+            <div class="ingredients-grid">
+                <div class="ingredient-card">
+                    <img src="./images/Data_manager_images/straberries.jpg" alt="Strawberry" class="ingredient-image">
+                    <div class="ingredient-name">Strawberry</div>
+                </div>
+                <div class="ingredient-card">
+                    <img src="./images/Data_manager_images/banana.jpg" alt="Banana" class="ingredient-image">
+                    <div class="ingredient-name">Banana</div>
+                </div>
+                <div class="ingredient-card">
+                    <img src="./images/Data_manager_images/saffron.jpg" alt="Saffron" class="ingredient-image">
+                    <div class="ingredient-name">Saffron</div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="section-title">Engagement</h2>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-title">Active Users</div>
+                        <div class="stat-value">3,400</div>
+                        <div class="stat-trend">+5%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Weekly Reviews</div>
+                        <div class="stat-value">1,400</div>
+                        <div class="stat-trend">+12%</div>
+                    </div>
+                </div>
+                <canvas id="engagementChart"></canvas>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="section-title">Ingredient Details</h2>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Uploads</div>
+                        <div class="stat-value">2800</div>
+                        <div class="stat-trend">+12%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Pending to be Reviewed</div>
+                        <div class="stat-value">2</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Rejected</div>
+                        <div class="stat-value">2</div>
+                    </div>
+                </div>
+                <canvas id="ingredientChart"></canvas>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="section-title">Recipe Details</h2>
+                </div>
+                <canvas id="recipeChart"></canvas>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2 class="section-title">Top Recipes</h2>
+                </div>
+                <table class="recipe-table">
+                    <thead>
+                        <tr>
+                            <th>Recipe</th>
+                            <th>Rating</th>
+                            <th>Likes</th>
+                            <th>Views</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topRecipesTable">
+                        <!-- Table rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Recipe Data
+        const recipes = {
+            recently: [
+                {
+                    title: 'Salad',
+                    image: 'images/dashboard_images/Salad.jpg',
+                    ingredients: 5,
+                    time: '20 min',
+                    rating: 4.5
+                },
+                {
+                    title: 'Steak',
+                    image: 'images/dashboard_images/Steak.jpg',
+                    ingredients: 8,
+                    time: '30 min',
+                    rating: 4.8
+                },
+                {
+                    title: 'Chicken Salad',
+                    image: 'images/dashboard_images/Chicken Salami.jpg',
+                    ingredients: 6,
+                    time: '25 min',
+                    rating: 4.3
+                }
+            ],
+            trending: [
+                { 
+                    title: 'Grilled Salmon',
+                    ingredients: 7,
+                    time: 30,
+                    rating: 4.8,
+                    likes: 425,
+                    image: 'images/dashboard_images/salmon.jpg'
+                },
+                {
+                    title: 'Vegetable Curry',
+                    ingredients: 10,
+                    time: 45,
+                    rating: 4.3,
+                    likes: 290,
+                    image: 'images/dashboard_images/curry.jpg'
+                },
+                {
+                    title: 'Pasta Carbonara',
+                    ingredients: 6,
+                    time: 25,
+                    rating: 4.6,
+                    likes: 378,
+                    image: 'images/dashboard_images/pasta.jpg'
+                }
+            ],
+            recommended: [
+            {
+                title: 'Buddha Bowl',
+                ingredients: 8,
+                time: 20,
+                rating: 4.7,
+                likes: 412,
+                image: 'images/dashboard_images/bowl.jpg'
+            },
+            {
+                title: 'Quinoa Salad',
+                ingredients: 7,
+                time: 15,
+                rating: 4.4,
+                likes: 256,
+                image: 'images/dashboard_images/salad-1.jpg'
+            },
+            {
+                title: 'Smoothie Bowl',
+                ingredients: 5,
+                time: 10,
+                rating: 4.5,
+                likes: 298,
+                image: 'images/dashboard_images/wrap.jpg'
+            }
+            ]
+        };
+
+        // Top Recipes Data
+        const topRecipes = [
+            { name: 'Spaghetti Carbonara', rating: 4.8, likes: '1.2k', views: '4.5k' },
+            { name: 'Chicken Tikka', rating: 4.7, likes: '980', views: '3.8k' },
+            { name: 'Caesar Salad', rating: 4.6, likes: '850', views: '3.2k' },
+            { name: 'Beef Steak', rating: 4.5, likes: '720', views: '2.9k' }
+        ];
+
+        // Function to create recipe cards
+        function createRecipeCards(category) {
+            const recipeGrid = document.getElementById('recipeGrid');
+            recipeGrid.innerHTML = recipes[category].map(recipe => `
+                <div class="recipe-card">
+                    <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">${recipe.title}</h3>
+                        <div class="recipe-meta">
+                            <span>${recipe.ingredients} ingredients | ${recipe.time}</span>
+                            <span>⭐ ${recipe.rating}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Function to populate top recipes table
+        function populateTopRecipes() {
+            const tableBody = document.getElementById('topRecipesTable');
+            tableBody.innerHTML = topRecipes.map(recipe => `
+                <tr>
+                    <td>${recipe.name}</td>
+                    <td>${recipe.rating}</td>
+                    <td>${recipe.likes}</td>
+                    <td>${recipe.views}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Chart configurations
+        function createEngagementChart() {
+            const ctx = document.getElementById('engagementChart').getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Active Users',
+                        data: [3000, 3200, 3400, 3300, 3600, 3400],
+                        borderColor: '#E31837',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createIngredientChart() {
+            const ctx = document.getElementById('ingredientChart').getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Total Ingredients',
+                        data: [2000, 2200, 2400, 2300, 2600, 2800],
+                        borderColor: '#22C55E',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createRecipeChart() {
+            const ctx = document.getElementById('recipeChart').getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Total Recipes',
+                        data: [1500, 1700, 1900, 2100, 2300, 2500],
+                        borderColor: '#3B82F6',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize recipe cards
+            createRecipeCards('recently');
+
+            // Initialize top recipes table
+            populateTopRecipes();
+
+            // Initialize charts
+            createEngagementChart();
+            createIngredientChart();
+            createRecipeChart();
+
+            // Tab switching
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    createRecipeCards(tab.dataset.tab);
+                });
+            });
+
+            // Navigation item click handling
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (item.textContent.trim() === "Manage Users" || item.textContent.trim() === "Dashboard") {
+                        return;
+                    }
+                    e.preventDefault();
+                    navItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
